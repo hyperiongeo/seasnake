@@ -4,7 +4,7 @@
 # This uses the clang Python API to parse and traverse the AST for C++
 # code, producing a data model.
 ###########################################################################
-from __future__ import unicode_literals, print_function
+# from __future__ import unicode_literals, print_function
 
 import argparse
 import os
@@ -23,15 +23,10 @@ from clang.cindex import (
 from .model import *
 from .writer import CodeWriter
 
-
-# Python 2 compatibility shims
-if sys.version_info.major <= 2:
-    text = unicode
-else:
-    text = str
+text = str
 
 
-class BaseParser(object):
+class BaseParser:
     def __init__(self):
         self.index = Index.create()
 
@@ -88,7 +83,7 @@ class CodeConverter(BaseParser):
             raise Exception('No module name specified')
 
     def _output_module(self, mod, out):
-        out.write('===== %s.py ==================================================\n' % mod.full_name)
+        out.write(f"===== { mod.full_name)}.py ==================================================\n")
         mod.output(CodeWriter(out))
         for submodule in mod.submodules.values():
             self._output_module(submodule, out)
